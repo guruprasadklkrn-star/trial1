@@ -38,9 +38,7 @@
     .line { border-bottom: 1px solid #87CEFA; margin: 6px 0; }
 
     .header-info select, 
-    .header-info input, 
-    .header-info #finalShopAddress, 
-    .header-info #shopTagline {
+    .header-info input {
       text-align:center;
       width: 100%;
       max-width: 500px;
@@ -51,6 +49,9 @@
       font-size:13px;
       margin-top:5px;
     }
+
+    #finalShopAddress { font-weight: bold; font-size: 13px; display:block; margin-top:2px; }
+    #shopTagline { font-size: 12px; font-style: italic; display:block; font-weight: normal; margin-top:5px; }
 
     .info { display: flex; justify-content: space-between; font-size: 12px; margin-top: 5px; }
     .info input { width: 100%; padding: 4px; font-size: 12px; border: none; border-bottom: 1px dotted #555; background: transparent; outline: none; }
@@ -74,9 +75,6 @@
     .totals .right td:last-child { font-weight: bold; }
 
     .footer-line { border-top: 1px solid #87CEFA; margin-top: 10px; }
-
-    #finalShopAddress { font-weight: bold; font-size: 13px; display:block; }
-    #shopTagline { font-size: 12px; font-style: italic; display:block; font-weight: normal; }
 
     @media print {
       button { display: none; }
