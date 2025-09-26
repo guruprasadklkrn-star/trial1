@@ -13,20 +13,45 @@
     }
 
     .header {
-      display:flex; flex-direction:row; align-items:center; justify-content:center;
+      display:flex; 
+      align-items:center; 
       background:#E0F7FA; padding:10px; border-radius:6px 6px 0 0;
-      gap: 15px;
-    }
-    .header img { width:80px; height:auto; }
-    .header-info {
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-    }
-    .header-info h2 { font-size:20px; margin:0; font-weight:bold; text-align:center; }
-    .header-info select, .header-info input, .header-info #finalShopAddress, .header-info #shopTagline {
-      text-align:center;
     }
 
+    .header img { 
+      width:80px; 
+      height:auto; 
+      margin-right: 10px; 
+      flex-shrink:0;
+    }
+
+    .header-info {
+      display:flex; 
+      flex-direction:column; 
+      align-items:center; 
+      justify-content:center; 
+      flex:1; 
+      min-width: 0; /* allow inputs to shrink */
+    }
+
+    .header-info h2 { font-size:20px; margin:0; font-weight:bold; }
     .line { border-bottom: 1px solid #87CEFA; margin: 6px 0; }
+
+    .header-info select, 
+    .header-info input, 
+    .header-info #finalShopAddress, 
+    .header-info #shopTagline {
+      text-align:center;
+      width: 100%;
+      max-width: 500px;
+      box-sizing: border-box;
+      border:none;
+      background:transparent;
+      outline:none;
+      font-size:13px;
+      font-weight:bold;
+      margin-top:5px;
+    }
 
     .info { display: flex; justify-content: space-between; font-size: 12px; margin-top: 5px; }
     .info input { width: 100%; padding: 4px; font-size: 12px; border: none; border-bottom: 1px dotted #555; background: transparent; outline: none; }
@@ -51,8 +76,8 @@
 
     .footer-line { border-top: 1px solid #87CEFA; margin-top: 10px; }
 
-    #finalShopAddress { font-weight: bold; font-size: 13px; text-align: center; margin-top: 2px; display: block; }
-    #shopTagline { font-size: 12px; font-style: italic; text-align: center; margin-top: 5px; }
+    #finalShopAddress { font-weight: bold; font-size: 13px; display:block; }
+    #shopTagline { font-size: 12px; font-style: italic; display:block; }
 
     @media print {
       button { display: none; }
@@ -76,19 +101,16 @@
     <div class="header-info">
       <h2>MURUGAN LAUNDRY</h2>
 
-      <select id="shopAddressSelect" onchange="toggleShopAddressInput(this)"
-        style="border:none; border-bottom:1px dotted #555; background:transparent; outline:none; font-size:13px; font-weight:bold; margin-top:5px; width:100%; max-width:400px;">
+      <select id="shopAddressSelect" onchange="toggleShopAddressInput(this)">
         <option value="default">10th Cross, Patel Layout, Balagere Road, Varthur, Bangalore - 87</option>
         <option value="manual">Enter Manually</option>
       </select>
 
-      <input type="text" id="manualShopAddress"
-        style="display:none; width:100%; max-width:400px; font-weight:bold; border:none; background:transparent; outline:none; font-size:13px; margin-top:5px;"
-        placeholder="Enter Shop Address Here" />
+      <input type="text" id="manualShopAddress" placeholder="Enter Shop Address Here" style="display:none;"/>
 
-      <span id="finalShopAddress" style="font-weight:bold; font-size:13px; margin-top:2px; display:none;"></span>
+      <span id="finalShopAddress" style="display:none;"></span>
 
-      <div id="shopTagline" style="font-size:12px; font-style:italic; margin-top:5px;">
+      <div id="shopTagline">
         "Clean Clothes, Happy Life"
       </div>
     </div>
@@ -196,7 +218,6 @@
     }
     reader.readAsDataURL(blob);
   }
-
   loadLogoAsBase64('https://raw.githubusercontent.com/guruprasadklkrn-star/trial1/635e82e374d977510550c1b74539c88a88bcbd47/logo.png', 'logoImg');
 
   function calculateRow(input) {
