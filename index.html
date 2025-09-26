@@ -13,11 +13,17 @@
     }
 
     .header {
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      display:flex; flex-direction:row; align-items:center; justify-content:center;
       background:#E0F7FA; padding:10px; border-radius:6px 6px 0 0;
+      gap: 15px;
     }
-    .header img { width:80px; height:auto; margin-bottom:8px; }
-    .header h2 { font-size:20px; margin:0; font-weight:bold; }
+    .header img { width:80px; height:auto; }
+    .header-content {
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      flex:1;
+    }
+    .header-content h2 { font-size:20px; margin:0; font-weight:bold; }
+
     .line { border-bottom: 1px solid #87CEFA; margin: 6px 0; }
 
     .info { display: flex; justify-content: space-between; font-size: 12px; margin-top: 5px; }
@@ -65,22 +71,25 @@
 <div class="container" id="invoice">
   <div class="header">
     <img id="logoImg" src="" alt="Murugan Laundry Logo">
-    <h2>MURUGAN LAUNDRY</h2>
 
-    <select id="shopAddressSelect" onchange="toggleShopAddressInput(this)"
-      style="border:none; border-bottom:1px dotted #555; background:transparent; outline:none; font-size:13px; text-align:center; font-weight:bold; margin-top:5px; width:100%; max-width:400px;">
-      <option value="default">10th Cross, Patel Layout, Balagere Road, Varthur, Bangalore - 87</option>
-      <option value="manual">Enter Manually</option>
-    </select>
+    <div class="header-content">
+      <h2>MURUGAN LAUNDRY</h2>
 
-    <input type="text" id="manualShopAddress"
-      style="display:none; width:100%; max-width:400px; text-align:center; font-weight:bold; border:none; background:transparent; outline:none; font-size:13px; margin-top:5px;"
-      placeholder="Enter Shop Address Here" />
+      <select id="shopAddressSelect" onchange="toggleShopAddressInput(this)"
+        style="border:none; border-bottom:1px dotted #555; background:transparent; outline:none; font-size:13px; text-align:center; font-weight:bold; margin-top:5px; width:100%; max-width:400px;">
+        <option value="default">10th Cross, Patel Layout, Balagere Road, Varthur, Bangalore - 87</option>
+        <option value="manual">Enter Manually</option>
+      </select>
 
-    <span id="finalShopAddress" style="font-weight:bold; font-size:13px; text-align:center; margin-top:2px; display:none;"></span>
+      <input type="text" id="manualShopAddress"
+        style="display:none; width:100%; max-width:400px; text-align:center; font-weight:bold; border:none; background:transparent; outline:none; font-size:13px; margin-top:5px;"
+        placeholder="Enter Shop Address Here" />
 
-    <div id="shopTagline" style="font-size:12px; font-style:italic; text-align:center; margin-top:5px;">
-      "Clean Clothes, Happy Life"
+      <span id="finalShopAddress" style="font-weight:bold; font-size:13px; text-align:center; margin-top:2px; display:none;"></span>
+
+      <div id="shopTagline" style="font-size:12px; font-style:italic; text-align:center; margin-top:5px;">
+        "Clean Clothes, Happy Life"
+      </div>
     </div>
   </div>
 
@@ -186,10 +195,7 @@
     }
     reader.readAsDataURL(blob);
   }
-  loadLogoAsBase64(
-    'https://raw.githubusercontent.com/guruprasadklkrn-star/trial1/0e4d97747b0a73c2f2bba4eeee7d718780c484d7/logo.png',
-    'logoImg'
-  );
+  loadLogoAsBase64('https://github.com/guruprasadklkrn-star/trial1/blob/0e4d97747b0a73c2f2bba4eeee7d718780c484d7/logo.png', 'logoImg');
 
   function calculateRow(input) {
     let row = input.closest("tr");
