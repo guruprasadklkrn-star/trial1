@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Murugan Laundry Bill</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 10mm;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 100%;
+      max-width: 700px;
+      margin: auto;
+      padding: 5px;
+      border: 2px solid black;
+      box-sizing: border-box;
+    }
+    .header {
+      text-align: center;
+    }
+    .header h2 {
+      font-size: 18px;
+      margin: 0;
+      text-decoration: underline;
+    }
+    .header p {
+      margin: 3px 0;
+      font-size: 13px;
+    }
+    .line {
+      border-bottom: 1px solid black;
+      margin: 6px 0;
+    }
+    .info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+    .info input {
+      width: 100%;
+      padding: 3px;
+      font-size: 12px;
+      border: none;
+      border-bottom: 1px dotted #555;
+      background: transparent;
+      outline: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 2px;
+      text-align: center;
+    }
+    input[type="text"], input[type="number"], input[type="date"] {
+      box-sizing: border-box;
+      padding: 2px;
+      font-size: 11px;
+      border: none;
+      border-bottom: 1px dotted #555;
+      background: transparent;
+      outline: none;
+    }
+    .desc-input { width: 100%; }
+    .small-input { width: 45px; }
+    .totals {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+    .totals .left, .totals .right {
+      width: 48%;
+      font-size: 11px;
+    }
+    .totals .right td {
+      text-align: left;
+    }
+    .footer-line {
+      border-top: 1px solid black;
+      margin-top: 10px;
+    }
+    button {
+      display: block;
+      margin: 10px auto;
+      padding: 6px 14px;
+      font-size: 13px;
+    }
+    @media print {
+      button { display: none; }
+      body { margin: 0; }
+      .container { border: none; }
+      input {
+        border: none !important;
+        outline: none !important;
+        background: none !important;
+        -webkit-appearance: none !important;
+        appearance: none !important;
+        padding: 0 !important;
+      }
+      input::-webkit-inner-spin-button,
+      input::-webkit-calendar-picker-indicator {
+        display: none !important;
+        -webkit-appearance: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="invoice">
+  <div class="header">
+    <h2>MURUGAN LAUNDRY</h2>
+    <!-- SHOP ADDRESS DROPDOWN (Centered) -->
+    <p>
+      <select id="shopAddressSelect" onchange="toggleShopAddressInput(this)" 
+        style="display:block; margin:0 auto; border:none; border-bottom:1px dotted #555; background:transparent; outline:none; font-size:13px; text-align:center; width:fit-content;">
+        <option value="default">10th Cross, Patel Layout, Balagere Road, Varthur, Bangalore - 87</option>
+        <option value="manual">Enter Manually</option>
+      </select>
+
+      <input type="text" id="manualShopAddress" 
+        style="display:none; margin:0 auto; border:none; border-bottom:1px dotted #555; background:transparent; outline:none; font-size:13px; text-align:center; width:fit-content;" 
+        placeholder="Enter Shop Address Here" />
+
+      <span id="finalShopAddress" 
+        style="display:none; font-size:13px; text-align:center; display:block; margin:0 auto; width:fit-content;"></span>
+    </p>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="info">
+    <div style="width: 48%;">
+      <label>Customer Name: <input type="text" /></label><br /><br />
+      <label>Contact No.: <input type="text" /></label><br /><br />
+      <label>Customer Address: <input type="text" style="width: 100%;" /></label>
+    </div>
+    <div style="width: 48%;">
+      <label>Order ID: <input type="text" /></label><br /><br />
+      <div style="display: flex; justify-content: space-between; gap: 5px;">
+        <label>Pickup Date: <input type="date" style="width: 100px;" /></label>
+        <label>Drop Date: <input type="date" style="width: 100px;" /></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="line"></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Sl. No.</th>
+        <th>Description</th>
+        <th>Service</th>
+        <th>Price</th>
+        <th>Qty.</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 10 rows restored -->
+      <tr><td>1</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
+      <tr><td>2</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
+      <tr><td>3</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
+      <tr><td>4</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
+      <tr><td>5</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
+      <tr><td>6</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
+      <tr><td>7</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
+      <tr><td>8</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
+      <tr><td>9</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
+      <tr><td>10</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
+    </tbody>
+  </table>
+
+  <table>
+    <thead>
+      <tr><th>Service Type</th><th>Price</th><th>Qty</th><th>Amount</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Wash & Iron Kg</td>
+        <td><input type="number" class="extra-price" value="100" oninput="calculateExtra(this)" /></td>
+        <td><input type="number" class="extra-qty" data-price="100" oninput="calculateExtra(this)" /></td>
+        <td><span class="extra-amount">0.00</span></td>
+      </tr>
+      <tr>
+        <td>Wash & Fold Kg</td>
+        <td><input type="number" class="extra-price" value="75" oninput="calculateExtra(this)" /></td>
+        <td><input type="number" class="extra-qty" data-price="75" oninput="calculateExtra(this)" /></td>
+        <td><span class="extra-amount">0.00</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="totals">
+    <div class="left">
+      <p><strong>Timings:</strong> 9:00 am to 9:00 pm</p>
+      <p><strong>Mob:</strong> <input type="text" value="9113647449, 9880114327" style="width: 100%;" /></p>
+    </div>
+    <div class="right">
+      <table>
+        <tr><td>Sub Total</td><td>:</td><td><span id="subtotal">0.00</span></td></tr>
+        <tr><td>Discount</td><td>:</td><td><input type="number" id="discount" value="0" oninput="calculateTotal()" /></td></tr>
+        <tr><td>Other Charges</td><td>:</td><td><input type="text" /></td></tr>
+        <tr><td><strong>Gross Amount</strong></td><td>:</td><td><span id="gross">0.00</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer-line"></div>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+  <button onclick="saveAsPDF()">Save to PDF</button>
+  <button onclick="prepareShopAddressForOutput(); window.print(); restoreShopAddressAfterOutput();">Print</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function calculateRow(el) {
+  const row = el.closest('tr');
+  const price = parseFloat(row.querySelector('.price')?.value || 0);
+  const qty = parseFloat(row.querySelector('.qty')?.value || 0);
+  row.querySelector('.amount').innerText = (price * qty).toFixed(2);
+  calculateTotal();
+}
+function calculateExtra(el) {
+  const row = el.closest('tr');
+  const qtyInput = row.querySelector('.extra-qty');
+  const priceInput = row.querySelector('.extra-price');
+  const qty = parseFloat(qtyInput.value || 0);
+  const price = parseFloat(priceInput.value || 0);
+  qtyInput.dataset.price = price;
+  row.querySelector('.extra-amount').innerText = (price * qty).toFixed(2);
+  calculateTotal();
+}
+function calculateTotal() {
+  let total = 0;
+  document.querySelectorAll('.amount, .extra-amount').forEach(span => {
+    total += parseFloat(span.innerText) || 0;
+  });
+  document.getElementById('subtotal').innerText = total.toFixed(2);
+  const discount = parseFloat(document.getElementById('discount').value) || 0;
+  document.getElementById('gross').innerText = (total - discount).toFixed(2);
+}
+
+/* SHOP ADDRESS FUNCTIONS */
+function toggleShopAddressInput(select) {
+  const manualInput = document.getElementById("manualShopAddress");
+  if (select.value === "manual") {
+    select.style.display = "none";
+    manualInput.style.display = "block";
+    manualInput.focus();
+  } else {
+    manualInput.style.display = "none";
+    select.style.display = "block";
+  }
+}
+function prepareShopAddressForOutput() {
+  const select = document.getElementById("shopAddressSelect");
+  const manualInput = document.getElementById("manualShopAddress");
+  const finalSpan = document.getElementById("finalShopAddress");
+  let value = "";
+  if (manualInput.style.display !== "none" && manualInput.value.trim() !== "") {
+    value = manualInput.value;
+  } else {
+    value = select.options[select.selectedIndex].text;
+  }
+  finalSpan.textContent = value;
+  finalSpan.style.display = "block";
+  select.style.display = "none";
+  manualInput.style.display = "none";
+}
+function restoreShopAddressAfterOutput() {
+  const select = document.getElementById("shopAddressSelect");
+  const manualInput = document.getElementById("manualShopAddress");
+  const finalSpan = document.getElementById("finalShopAddress");
+  finalSpan.style.display = "none";
+  if (manualInput.value.trim() !== "") {
+    manualInput.style.display = "block";
+  } else {
+    select.style.display = "block";
+  }
+}
+function saveAsPDF() {
+  const invoice = document.getElementById('invoice');
+  const orderIdInput = Array.from(invoice.querySelectorAll('label')).find(label => label.textContent.includes('Order ID'));
+  const orderId = orderIdInput ? (orderIdInput.querySelector('input')?.value || 'No_Order_ID') : 'No_Order_ID';
+  prepareShopAddressForOutput();
+  const inputs = invoice.querySelectorAll('input');
+  inputs.forEach(input => {
+    if (input.id === "manualShopAddress") return; // avoid duplicate shop address
+    const span = document.createElement('span');
+    span.textContent = input.value;
+    span.className = 'input-value';
+    input.parentNode.insertBefore(span, input.nextSibling);
+    input.style.display = 'none';
+  });
+  html2pdf().set({
+    margin: 5,
+    filename: `Murugan_Laundry_Bill_${orderId}.pdf`,
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: { scale: 2, scrollY: 0 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  }).from(invoice).save().then(() => {
+    inputs.forEach(input => input.style.display = '');
+    invoice.querySelectorAll('.input-value').forEach(span => span.remove());
+    restoreShopAddressAfterOutput();
+  });
+}
+</script>
+
+</body>
+</html>
+
